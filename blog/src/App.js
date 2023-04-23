@@ -20,7 +20,8 @@ function App() {
               <h4 onClick={() => { 모달변경(true); 선택된글제목변경(element); }}>
                 {element}
                 <span onClick={
-                  () => {
+                  (e) => {
+                    e.stopPropagation();
                     let copy = [...따봉];
                     copy[idx] = copy[idx] + 1
                     따봉변경(copy)
