@@ -7,12 +7,14 @@ function App() {
   let [따봉, 따봉변경] = useState(new Array(글제목.length).fill(0));
   let [모달상태, 모달변경] = useState(false);
   let [선택된글제목, 선택된글제목변경] = useState('');
+  let [추가할글제목, 추가할글제목변경] = useState('');
 
   return (
     <div className="App">
       <div className="black-nav">
         <div>개발 blog</div>
       </div>
+
       {
         글제목.map((element, idx) => {
           return (
@@ -30,10 +32,24 @@ function App() {
                 </span> {따봉[idx]}
               </h4>
               <p>2월 17일 발행</p>
+              <button onClick={() => {
+                글제목.splice(idx, 1);
+                let copy = [...글제목];
+                글제목변경(copy);
+              }}>삭제</button>
             </div>
           )
         })
       }
+
+      <div>
+        <input onChange={(e) => { 추가할글제목변경(e.target.value); }} />
+        <button onClick={() => {
+          글제목.unshift(추가할글제목);
+          let copy = [...글제목];
+          글제목변경(copy);
+        }}>추가</button>
+      </div>
 
       {
         모달상태 ? <Modal 글제목={선택된글제목} /> : null
