@@ -41,7 +41,7 @@ function App() {
             </div>
           </>
         } />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
         <Route path="/about" element={
           <div>
             About
