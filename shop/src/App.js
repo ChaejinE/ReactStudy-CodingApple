@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import data from "./data.js"
 import { useState } from 'react';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import Detail from './pages/Detail.js'
 
 function App() {
@@ -42,6 +42,15 @@ function App() {
           </>
         } />
         <Route path="/detail" element={<Detail />} />
+        <Route path="/about" element={
+          <div>
+            About
+            <Outlet></Outlet>
+          </div>
+        }>
+          <Route path="member" element={<div>멤버들</div>} />
+          <Route path="company" element={<div>회사들</div>} />
+        </ Route>
         <Route path="*" element={<div>404 Page</div>} />
       </Routes>
     </div>
