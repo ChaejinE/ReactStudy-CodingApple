@@ -7,13 +7,25 @@ import data from "./data.js"
 import { useState } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import Detail from './pages/Detail.js'
+import { useEffect } from 'react';
 
 function App() {
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
+  let [alert, setAlert] = useState(true);
+
+  useEffect(() => {
+    let a = setTimeout(() => { setAlert(false) }, 2000)
+    return () => { clearTimeout(a); }
+  }, [])
 
   return (
     <div className="App">
+      {
+        alert
+          ? <div>2초뒤 제거</div>
+          : null
+      }
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand onClick={() => { navigate('/') }}>Shoes</Navbar.Brand>
