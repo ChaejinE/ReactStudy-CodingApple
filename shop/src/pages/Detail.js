@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import { useState } from "react";
+import { useEffect } from "react";
 
 function Detail(props) {
     let { id } = useParams();
@@ -39,7 +40,18 @@ function Detail(props) {
 }
 
 function TabComponent({ tab }) {
-    return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]
+    let [fade, setFade] = useState('');
+
+    useEffect(() => {
+        let t = setTimeout(() => { setFade('end') }, 100);
+        return () => { setFade(''); clearTimeout(t); }
+    }, [tab])
+
+    return (
+        <div className={`start ${fade}`}>
+            {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+        </div>
+    )
 }
 
 export default Detail;
