@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
+import { Nav } from "react-bootstrap";
+import { useState } from "react";
 
 function Detail(props) {
     let { id } = useParams();
     let seletedDetail = props.shoes.find((x) => { return x.id == id; });
-    console.log(seletedDetail)
+    let [tab, setTab] = useState(1);
 
     return (
         <div className="container">
@@ -18,8 +20,32 @@ function Detail(props) {
                     <button className="btn btn-danger">주문하기</button>
                 </div>
             </div>
+
+            <Nav variant="tabs" defaultActiveKey="link0">
+                <Nav.Item>
+                    <Nav.Link eventKey="link0" onClick={() => { setTab(0) }}>버튼0</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey="link1" onClick={() => { setTab(1) }}>버튼1</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey="link2" onClick={() => { setTab(2) }}>버튼2</Nav.Link>
+                </Nav.Item>
+            </Nav>
+
+            <TabComponent tab={tab}></TabComponent>
         </div>
     );
+}
+
+function TabComponent(props) {
+    if (props.tab == 0) {
+        return <div>내용0</div>
+    } else if (props.tab == 1) {
+        return <div>내용1</div>
+    } else if (props.tab == 2) {
+        return <div>내용2</div>
+    }
 }
 
 export default Detail;
