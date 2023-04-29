@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import Detail from './pages/Detail.js'
 import { useEffect } from 'react';
+import Cart from './pages/Cart.js'
 
 function App() {
   let [shoes, setShoes] = useState(data);
@@ -31,7 +32,8 @@ function App() {
           <Navbar.Brand onClick={() => { navigate('/') }}>Shoes</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={() => { navigate('/') }}>Home</Nav.Link>
-            <Nav.Link onClick={() => { navigate('/detail') }}>Detail</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/detail/0') }}>Detail</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/cart') }}>Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -64,6 +66,7 @@ function App() {
           <Route path="company" element={<div>회사들</div>} />
         </ Route>
         <Route path="*" element={<div>404 Page</div>} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </div>
   );

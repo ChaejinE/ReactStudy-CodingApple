@@ -2,11 +2,14 @@ import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import { useState } from "react";
 import { useEffect } from "react";
+import { addCart } from "../store/cartSlice";
+import { useDispatch } from "react-redux";
 
 function Detail(props) {
     let { id } = useParams();
     let seletedDetail = props.shoes.find((x) => { return x.id == id; });
     let [tab, setTab] = useState(1);
+    let dispatch = useDispatch();
 
     return (
         <div className="container">
@@ -18,7 +21,7 @@ function Detail(props) {
                     <h4 className="pt-5">{seletedDetail.title}</h4>
                     <p>{seletedDetail.content}</p>
                     <p>{seletedDetail.price} 원</p>
-                    <button className="btn btn-danger">주문하기</button>
+                    <button className="btn btn-danger" onClick={() => { dispatch(addCart(seletedDetail)) }}>주문하기</button>
                 </div>
             </div>
 
