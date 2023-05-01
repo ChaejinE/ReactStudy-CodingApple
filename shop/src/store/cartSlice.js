@@ -5,10 +5,18 @@ let carts = createSlice({
     initialState: [],
     reducers: {
         addCart(state, cart) {
+            if (state.find((elem) => { return (elem.id === cart.payload.id) })) {
+                console.log("Duplicated")
+                addCount(cart.payload.id)
+                return;
+            }
             state.push(cart.payload)
+        },
+        addCount(state, id) {
+            ++state[id.payload].count;
         }
     }
 })
 
-export let { addCart } = carts.actions
+export let { addCart, addCount } = carts.actions
 export default carts

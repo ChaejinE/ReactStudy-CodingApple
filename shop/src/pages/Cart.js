@@ -1,8 +1,11 @@
 import { Table } from "react-bootstrap"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { addCount } from '../store/cartSlice'
 
 function Cart() {
     let carts = useSelector((state) => { return (state.carts) });
+    let dispatch = useDispatch();
+
     return (
         <Table>
             <thead>
@@ -15,13 +18,13 @@ function Cart() {
             </thead>
             <tbody>
                 {
-                    carts.map((elem) => {
+                    carts.map((elem, idx) => {
                         return (
                             <tr>
-                                <td>{elem.id}</td>
+                                <td>{idx}</td>
                                 <td>{elem.title}</td>
                                 <td>{elem.count}</td>
-                                <td><button>+</button></td>
+                                <td><button onClick={() => { dispatch(addCount(elem.id)) }}>+</button></td>
                             </tr>
                         )
                     })
