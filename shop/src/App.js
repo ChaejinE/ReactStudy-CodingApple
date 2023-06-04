@@ -9,6 +9,8 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import Detail from './pages/Detail.js'
 import { useEffect } from 'react';
 import Cart from './pages/Cart.js'
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 function App() {
   let [shoes, setShoes] = useState(data);
@@ -16,9 +18,20 @@ function App() {
   let [alert, setAlert] = useState(true);
 
   useEffect(() => {
+    if (!localStorage.getItem("watched"))
+      localStorage.setItem("watched", JSON.stringify([]));
     let a = setTimeout(() => { setAlert(false) }, 2000)
     return () => { clearTimeout(a); }
   }, [])
+
+  let result = useQuery("Lotto", () => {
+    axios.get("https://codingapple1.github.io/userdata.json").
+      then((a) => {
+        console.log("요청");
+        return a.data;
+      })
+  })
+
 
   return (
     <div className="App">
@@ -34,6 +47,11 @@ function App() {
             <Nav.Link onClick={() => { navigate('/') }}>Home</Nav.Link>
             <Nav.Link onClick={() => { navigate('/detail/0') }}>Detail</Nav.Link>
             <Nav.Link onClick={() => { navigate('/cart') }}>Cart</Nav.Link>
+          </Nav>
+          <Nav className='ms-auto'>
+            {result.isLoading && "로딩중"}
+            {result.error && "에러"}
+            {result.data && result.data.name}
           </Nav>
         </Container>
       </Navbar>

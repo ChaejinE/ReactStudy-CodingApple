@@ -11,6 +11,15 @@ function Detail(props) {
     let [tab, setTab] = useState(1);
     let dispatch = useDispatch();
 
+    useEffect(() => {
+        let obj = localStorage.getItem("watched");
+        obj = JSON.parse(obj);
+        obj.push(seletedDetail.id);
+        obj = new Set(obj);
+        obj = Array.from(obj);
+        localStorage.setItem("watched", JSON.stringify(obj));
+    }, [])
+
     return (
         <div className="container">
             <div className="row">
