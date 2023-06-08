@@ -4,13 +4,15 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import data from "./data.js"
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
-import Detail from './pages/Detail.js'
 import { useEffect } from 'react';
-import Cart from './pages/Cart.js'
+// import Detail from './pages/Detail.js'
+// import Cart from './pages/Cart.js'
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+const Detail = lazy(() => import('./pages/Detail.js'));
+const Cart = lazy(() => import('./pages/Cart.js'));
 
 function App() {
   let [shoes, setShoes] = useState(data);
@@ -55,37 +57,38 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-
-      <Routes>
-        <Route path="/" element={
-          <>
-            <div className='main-bg'></div>
-            <div className="container">
-              <div className='row'>
-                {
-                  shoes.map((shoe, idx) => {
-                    return (
-                      <Card shoe={shoe} key={idx} />
-                    );
-                  })
-                }
+      <Suspense>
+        <Routes>
+          <Route path="/" element={
+            <>
+              <div className='main-bg'></div>
+              <div className="container">
+                <div className='row'>
+                  {
+                    shoes.map((shoe, idx) => {
+                      return (
+                        <Card shoe={shoe} key={idx} />
+                      );
+                    })
+                  }
+                </div>
               </div>
+            </>
+          } />
+          <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+          <Route path="/about" element={
+            <div>
+              About
+              <Outlet></Outlet>
             </div>
-          </>
-        } />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
-        <Route path="/about" element={
-          <div>
-            About
-            <Outlet></Outlet>
-          </div>
-        }>
-          <Route path="member" element={<div>멤버들</div>} />
-          <Route path="company" element={<div>회사들</div>} />
-        </ Route>
-        <Route path="*" element={<div>404 Page</div>} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
+          }>
+            <Route path="member" element={<div>멤버들</div>} />
+            <Route path="company" element={<div>회사들</div>} />
+          </ Route>
+          <Route path="*" element={<div>404 Page</div>} />
+          <Route path="/cart" element={<Cart />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
